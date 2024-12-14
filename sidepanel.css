@@ -1,0 +1,80 @@
+/* Dark theme colors */
+:root {
+  --dark-bg: #1e1e1e;
+  --dark-secondary: #2d2d2d;
+  --text-color: #e0e0e0;
+  --border-color: #404040;
+  --primary-color: #0d6efd;
+  --hover-color: #0b5ed7;
+}
+
+/* Base styles */
+body {
+  background-color: var(--dark-bg);
+  color: var(--text-color);
+}
+
+.sidepanel {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: var(--dark-bg);
+    height: 100vh;
+}
+
+/* Chat body */
+.chat-body {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--dark-secondary);
+    border-color: var(--border-color) !important;
+    border-radius: 8px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+/* Input and buttons */
+.chat-footer {
+  border-color: var(--border-color) !important;
+}
+
+#chat-input {
+  background-color: var(--dark-secondary);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+#chat-input:focus {
+  background-color: var(--dark-secondary);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  color: var(--text-color);
+}
+
+.btn-outline-secondary {
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--dark-secondary);
+  border-color: var(--border-color);
+}
+
+/* Scrollbar styling */
+.chat-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: var(--dark-bg);
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
