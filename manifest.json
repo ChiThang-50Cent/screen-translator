@@ -11,6 +11,12 @@
       "16": "images/icon16.png"
     }
   },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon32.png",
+    "128": "images/icon128.png"
+  },
   "side_panel": {
     "default_path": "sidepanel.html"
   },
