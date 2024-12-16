@@ -176,7 +176,7 @@ const processOCRResponse = (response) => {
 
     // Xử lý tất cả escape characters phổ biến
     return responseText
-        .replace(/[\n\r\t\f\v\b]/g, "") // Loại bỏ newline, carriage return, tab, form feed, vertical tab, backspace
+        .replace(/[\n\r\t\f\v\b]/g, " ") // Loại bỏ newline, carriage return, tab, form feed, vertical tab, backspace
         .replace(/\s+/g, " ") // Thay thế nhiều khoảng trắng liên tiếp bằng 1 khoảng trắng
         .trim(); // Xóa khoảng trắng đầu và cuối
 };
