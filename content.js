@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "screenshot_taken") {
         createCanvasOverlay(message.dataUrl);
     }
-    return true;
+    return Promise.resolve();
 });
 
 function cropImage(img, selection) {
@@ -70,6 +70,10 @@ function createCanvasOverlay(screenshotUrl) {
             height: height
         };
         const croppedDataUrl = cropImage(img, selection);
+        chrome.runtime.sendMessage({
+            action: 'cropped_image',
+            base64Data: croppedDataUrl
+        });
         document.body.removeChild(canvas);
     });
 }
