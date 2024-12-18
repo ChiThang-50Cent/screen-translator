@@ -4,8 +4,10 @@
 
 ---
 ## Usage (I'm using for reading manga...:>>)
-Don't forget to add OCR and LLM apikey.. :>>
 
+Don't forget to add OCR, LLM api key :>>>
+
+![](https://github.com/ChiThang-50Cent/screen-translator/blob/main/usage.gif)
 ---
 
 ## English
@@ -59,6 +61,6 @@ Một công cụ sử dụng các mô hình LLM để giúp bạn hiểu các t�
 5. Ghim tiện ích mở rộng vào thanh công cụ (nhấp vào biểu tượng mảnh ghép ở góc trên bên phải, tìm Screen Translator và nhấp vào biểu tượng ghim)
 6. Bắt đầu sử dụng công cụ bằng cách nhấp vào biểu tượng tiện ích mở rộng trong thanh công cụ
 
-### API được sử dụng
+### API được sử dụng (Free)
 - **LLM**: [Groq API](https://console.groq.com/docs/api-keys) - Dùng để tạo văn bản và giải thích
 - **OCR**: [OCRSpace API](https://ocr.space/ocrapi) - Dùng để chuyển đổi hình ảnh thành văn bản
