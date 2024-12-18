@@ -60,6 +60,8 @@ function addMessage(text) {
     
     messageDiv.appendChild(paragraph);
     chatBody.appendChild(messageDiv);
+
+    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 const showSpinner = () => {
@@ -178,10 +180,11 @@ const processOCRResponse = (response) => {
     return responseText
         .replace(/[\n\r\t\f\v\b]/g, " ") // Loại bỏ newline, carriage return, tab, form feed, vertical tab, backspace
         .replace(/\s+/g, " ") // Thay thế nhiều khoảng trắng liên tiếp bằng 1 khoảng trắng
-        .trim(); // Xóa khoảng trắng đầu và cuối
+        .trim()
+        .toLowerCase(); // Xóa khoảng trắng đầu và cuối
 };
 
-async function callTranslateGroqAPI(endpoint, word, LLMAPIKey) {
+async function callTranslateGroqAPI(endpoint, sentence, LLMAPIKey) {
     try {
         const response = await fetch(endpoint, {
             method: "POST",
@@ -190,39 +193,68 @@ async function callTranslateGroqAPI(endpoint, word, LLMAPIKey) {
                 Authorization: `Bearer ${LLMAPIKey}`,
             },
             body: JSON.stringify({
-                model: "llama-3.1-8b-instant",
+                model: "gemma2-9b-it",
                 messages: [
                     {
                         role: "system",
-                        content: `You are a professional translator. Translate English text into Vietnamese. For each response, include:
-
-Translation: Provide the Vietnamese translation.
-Explanation: Explain the meaning of the English word in both English and Vietnamese.
-Examples:
-One English example sentence.
-One corresponding Vietnamese example sentence.
-
-Ensure clarity and maintain the original tone and context of the English text.`,
+                        content: `You are a professional translator. Translate each word or sentence I provide from English to Vietnamese accurately, preserving the original meaning, tone, and style.
+Additionally, explain the meanings of any words or phrases that may need clarification`,
                     },
                     {
                         role: "user",
-                        content: "corresponding",
+                        content: "here you go! it's frozen barley tea.",
                     },
                     {
                         role: "assistant",
-                        content: `Translations: tương ứng
+                        content: `Của bạn đây! Đây là trà mạch nha đông lạnh.
 
-Explanation: 
-- English: This adjective describes a relationship between two or more things that have a logical connection or a direct relevance to each other.
-- Vietnamese: Đây là tính từ mô tả mối quan hệ giữa hai hoặc nhiều thứ có mối liên hệ logic hoặc có liên quan trực tiếp với nhau.
+Giải nghĩa:
 
-Examples:
-English: The data in the report corresponds to the results of the survey.
-Translation: Dữ liệu trong báo cáo chính xác tương ứng với kết quả khảo sát.`,
+- Của bạn đây: Dùng để diễn tả việc đưa hoặc cung cấp một vật cho ai đó, tương tự như "Here you go" trong tiếng Anh. Trong ngữ cảnh này, có thể dịch là "Của bạn đây" để cảm giác tự nhiên hơn.
+- trà mạch nha đông lạnh: "Frozen barley tea" là trà làm từ mạch nha (lúa mạch) đã được làm lạnh. "Trà mạch nha" (barley tea) là một loại trà phổ biến ở các nước châu Á, trong khi "đông lạnh" (frozen) chỉ ra rằng trà này đã được làm lạnh hoặc là trà mát lạnh.`,
                     },
                     {
                         role: "user",
-                        content: word,
+                        content: `the members are the usual four...`,
+                    },
+                    {
+                        role: "assistant",
+                        content: `Các thành viên là bốn người như thường lệ...
+
+Giải nghĩa:
+
+- Các thành viên: "Members" chỉ những người trong một nhóm hoặc tổ chức.
+- bốn người như thường lệ: "The usual four" có nghĩa là bốn người mà thường xuyên có mặt hoặc là thành viên cố định trong nhóm. Cụm từ "như thường lệ" thể hiện sự quen thuộc và không thay đổi.`,
+                    },
+                    {
+                        role: "user",
+                        content: `sorry, he couldn't make it!`,
+                    },
+                    {
+                        role: "assistant",
+                        content: `Xin lỗi, anh ấy không thể đến được!
+
+Giải nghĩa:
+
+- Xin lỗi: "Sorry" dùng để bày tỏ sự tiếc nuối hoặc xin lỗi về một tình huống không như mong muốn.
+- anh ấy không thể đến được: "He couldn't make it" có nghĩa là anh ấy không thể tham dự hoặc không thể có mặt ở một sự kiện hoặc cuộc hẹn.`,
+                    },
+                    {
+                        role: "user",
+                        content: `seems like he had a last minute work thing.`,
+                    },
+                    {
+                        role: "assistant",
+                        content: `Có vẻ như anh ấy có một công việc gấp vào phút cuối.
+
+Giải nghĩa:
+
+- Có vẻ như: "Seems like" diễn tả một sự phỏng đoán, cảm giác hoặc nhận định về một tình huống.
+- công việc gấp vào phút cuối: "Last minute work thing" chỉ một công việc hoặc nhiệm vụ đột ngột và phải giải quyết ngay trước khi một sự kiện xảy ra, thường là vào thời điểm rất gần.`,
+                    },
+                    {
+                        role: "user",
+                        content: sentence,
                     },
                 ],
             }),
@@ -245,8 +277,9 @@ function processGroqResponse(response) {
         const data = typeof response === 'string' ? JSON.parse(response) : response;
 
         // Extract content from the response structure
-        if (data?.choices?.[0]?.message?.content) {
-            return data.choices[0].message.content;
+        let content = data?.choices?.[0]?.message?.content;
+        if (content) {
+            return content = content.trim();
         }
 
         // Handle empty or invalid response
